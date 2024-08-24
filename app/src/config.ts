@@ -17,19 +17,19 @@ export default defineConfig({
           title: 'Привет!',
           description:
             "Сейчас расскажу, как здесь все работает:<br>Грузи в меня картинки, и выбирай модель одежды. Об оплате поговорим на последнем шаге)",
-          button: 'Выбрать фото',
+          button: 'Круто! дальше',
         },
 
         // image
         {
           media: {
             type: 'image',
-            src: import('./assets/img/durov.webp'),
+            src: import('./assets/img/shaki.webp'),
           },
           shape: 'rounded',
           pagination: 'count',
           title: 'Что я могу',
-          description:"Я могу делать принты на футболках, свитшотах (толстовка без капюшона) и худи (толстовка с капюшоном).<br>У меня (пока что) есть три базовых цвета: черный, белый и серый.<br>И множество размеров от ~~дрища до жиробасины~~ xxs до 3xl",
+          description:"Я могу делать принты на футболках, свитшотах (толстовка без капюшона) и худи (толстовка с капюшоном).<br><br>У меня (пока что) есть два базовых цвета: черный и белый.<br><br>И множество размеров от xs до 3xl",
           button: 'Пон, дальше',
         },
 
@@ -37,7 +37,7 @@ export default defineConfig({
         {
           media: {
             type: 'sticker',
-            src: import('./assets/stickers/duck_love.tgs'),
+            src: import('./assets/img/chick.jpg'),
             size: 250,
           },
           shape: 'square',
@@ -52,7 +52,7 @@ export default defineConfig({
         {
           media: {
             type: 'sticker',
-            src: import('./assets/stickers/duck_love.tgs'),
+            src: import('./assets/stickers/shiba_no.tgs'),
             size: 250,
           },
           shape: 'square',
