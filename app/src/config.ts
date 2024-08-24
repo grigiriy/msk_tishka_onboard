@@ -51,7 +51,7 @@ export default defineConfig({
         {
           media: {
             type: 'image',
-            src: import('./assets/img/go.jpg'),
+            src: import('./assets/img/go.webp'),
           },
           shape: 'square',
           pagination: 'count',
