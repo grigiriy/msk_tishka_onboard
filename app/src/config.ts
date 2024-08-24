@@ -24,7 +24,7 @@ export default defineConfig({
         {
           media: {
             type: 'image',
-            src: import('./assets/img/shaki.webp'),
+            src: import('./assets/img/chick.jpg'),
           },
           shape: 'rounded',
           pagination: 'count',
@@ -36,9 +36,8 @@ export default defineConfig({
         // sticker
         {
           media: {
-            type: 'sticker',
-            src: import('./assets/img/chick.jpg'),
-            size: 250,
+            type: 'image',
+            src: import('./assets/stickers/shiba_no.tgs'),
           },
           shape: 'square',
           pagination: 'count',
@@ -51,15 +50,14 @@ export default defineConfig({
         // sticker
         {
           media: {
-            type: 'sticker',
-            src: import('./assets/stickers/shiba_no.tgs'),
-            size: 250,
+            type: 'image',
+            src: import('./assets/img/go.jpg'),
           },
           shape: 'square',
           pagination: 'count',
-          title: 'Есть ограничения!',
+          title: 'Крч,',
           description:
-            'Крч, делай десигн, выбирай размеры итп<br>Как будешь готов, жми "КУПИТЬ", и я скину тебе куар для оплаты.<br><br><b style="font-size:36px">Погнали?</b>',
+            'делай десигн, выбирай размеры итп<br>Как будешь готов, жми "КУПИТЬ", и я скину тебе куар для оплаты.<br><br><b style="font-size:24px">Погнали?</b>',
           button: 'ПОГНАЛИ!',
         },
       ],
