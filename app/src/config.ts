@@ -2,7 +2,7 @@ import { defineConfig } from '@tok/generation';
 
 
 
-import ConstructorSection from './custom/ConstructorSection.vue';
+// import ConstructorSection from './custom/ConstructorSection.vue';
 // import OrderSection from './custom/OrderSection.vue';
 
 const imageStyle =
@@ -11,7 +11,7 @@ const imageStyle =
 
 export default defineConfig({
   definePresets: {
-    constructor_slide: ConstructorSection,
+    // constructor_slide: ConstructorSection,
     // order_slide: OrderSection,
   },
   pages: [
