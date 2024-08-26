@@ -12,10 +12,13 @@
             <img v-for="image in images" :key="image" :src="image" alt="Thumbnail" @click="selectImage(image)" />
         </div>
 
-        <div class="price">{{ price }} ₽</div>
-        <div class="color-buttons">
-            <button @click="selectColor('white')" style="background-color:white;"></button>
-            <button @click="selectColor('black')" style="background-color:darkslategray;"></button>
+        
+        <div class="bottom-container">
+            <div class="color-buttons">
+                <button @click="selectColor('white')" style="background-color:white;"></button>
+                <button @click="selectColor('black')" style="background-color:darkslategray;"></button>
+            </div>
+            <div class="price">{{ price }} ₽</div>
         </div>
     </div>
 </template>
@@ -30,12 +33,15 @@ export default {
     },
     data() {
         return {
-            selectedImage: '/src/assets/img/products/shirt_white.png' as string | null,
+            selectedImage: 'https://thesh.ru/src/assets/img/products/shirt_white.png' as string | null,
             uploadedImage: null as string | null,
             images: [
-                '/src/assets/img/products/shirt_white.png',
-                '/src/assets/img/products/sweetshirt_white.png',
-                '/src/assets/img/products/hoodie_white.png'
+                // '/src/assets/img/products/shirt_white.png',
+                // '/src/assets/img/products/sweetshirt_white.png',
+                // '/src/assets/img/products/hoodie_white.png'
+                'https://thesh.ru/src/assets/img/products/shirt_white.png',
+                'https://thesh.ru/src/assets/img/products/sweetshirt_white.png',
+                'https://thesh.ru/src/assets/img/products/hoodie_white.png'
             ],
             price: 2500,
             prices: {
@@ -59,11 +65,11 @@ export default {
         selectColor(color: string): void {
             const type = this.selectedImage?.split('_')[0].split('/').pop();
             this.images = [
-                `/src/assets/img/products/shirt_${color}.png`,
-                `/src/assets/img/products/sweetshirt_${color}.png`,
-                `/src/assets/img/products/hoodie_${color}.png`
+                `https://thesh.ru/src/assets/img/products/shirt_${color}.png`,
+                `https://thesh.ru/src/assets/img/products/sweetshirt_${color}.png`,
+                `https://thesh.ru/src/assets/img/products/hoodie_${color}.png`
             ];
-            this.selectedImage = `/src/assets/img/products/${type}_${color}.png`;
+            this.selectedImage = `https://thesh.ru/src/assets/img/products/${type}_${color}.png`;
         },
     },
 };
@@ -120,5 +126,11 @@ export default {
     margin-right: 10px;
     cursor: pointer;
     max-width: 20vw;
+}
+
+.bottom-container {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
 }
 </style>
