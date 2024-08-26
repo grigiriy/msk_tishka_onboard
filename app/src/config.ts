@@ -12,7 +12,7 @@ const imageStyle =
 export default defineConfig({
   definePresets: {
     constructor_slide: ConstructorSection,
-    order_slide: OrderSection,
+    // order_slide: OrderSection,
   },
   pages: [
     {
