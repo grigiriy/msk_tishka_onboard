@@ -13,6 +13,7 @@
   export default {
     props: {
       classList: String,
+      type: String | null,
     },
   };
   </script>

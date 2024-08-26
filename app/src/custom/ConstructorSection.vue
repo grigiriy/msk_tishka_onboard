@@ -25,7 +25,7 @@
 
 
 <script lang="ts">
-import UploadForm from './micro/uploadForm.vue';
+import UploadForm from './components/micro/uploadForm.vue';
 
 export default {
     components: {
@@ -36,9 +36,6 @@ export default {
             selectedImage: 'https://thesh.ru/src/assets/img/products/shirt_white.png' as string | null,
             uploadedImage: null as string | null,
             images: [
-                // '/src/assets/img/products/shirt_white.png',
-                // '/src/assets/img/products/sweetshirt_white.png',
-                // '/src/assets/img/products/hoodie_white.png'
                 'https://thesh.ru/src/assets/img/products/shirt_white.png',
                 'https://thesh.ru/src/assets/img/products/sweetshirt_white.png',
                 'https://thesh.ru/src/assets/img/products/hoodie_white.png'
