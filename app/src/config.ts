@@ -20,7 +20,7 @@ export default defineConfig({
         {
           // extends: 'order_slide',
           // button: 'Оформить заказ',
-          extends: 'order_slide',
+          extends: 'form',
           media: {
             type: 'sticker',
             src: import('./assets/stickers/duck_spy.tgs'),
