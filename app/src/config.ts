@@ -1,11 +1,25 @@
 import { defineConfig } from '@tok/generation';
 
-export default defineConfig({
 
+
+import ActionSlide from './custom/components/ConstructorSection.vue';
+
+const imageStyle =
+  'left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: initial';
+
+
+export default defineConfig({
+  definePresets: {
+    action_slide: ActionSlide,
+  },
   pages: [
     {
       slides: [
         // intro
+        {
+          extends: 'action_slide',
+          button: 'Перейти к оформлению',
+        },
         {
           media: {
             type: 'sticker',
@@ -16,7 +30,7 @@ export default defineConfig({
           pagination: 'count',
 
           title: 'Привет!',
-          description:"Я бот, который умеет делать (почти) любые принты на одежде.<br><br>Сейчас у меня есть футболки, свитшоты (это толстовка без капюшона) и худи (это толстовка с капюшоном). И три базовых цвета: черный, белый и серый.<br><br>И любые размеры. От xs-феечек до xxxl-богатырей. Помни, что все мои вещи — это небольшой оверсайз.",
+          description:"Я бот, который умеет делать (почти) любые принты на одежде.<br><br>Сейчас у меня есть футболки, свитшоты (это толстовка без капюшона) и худи (это толстовка с капюшоном). И два базовых цвета: черный и белый.<br><br>И любые размеры. От xs-феечек до xxxl-богатырей. Помни, что все мои вещи — это небольшой оверсайз.",
           button: 'Ясно',
 
           // title: 'Привет!',
@@ -46,7 +60,7 @@ export default defineConfig({
           },
           shape: 'square',
           pagination: 'count',
-          
+
           title: 'Есть ограничения!',
           description:'Я могу отказать в печати, если твоя картинка нарушает какие-нибудь законы или моё чувство прекрасного.<br><br>Боту, конечно, ничего не будет, а вот кожаным, которые будут это печатать, может и прилететь. Так что сегодня без фурри-порно, прости.<br><br>Если у тебя специфический заказ, пиши вот сюда <a href="https://t.me/gmalyshev">@gmalyshev</a> — обсудим лично.',
           button: 'Понятно',
