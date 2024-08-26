@@ -1,11 +1,8 @@
 <template>
     <div>
-
         <div class="top-container">
-            <div class="price">Сумма заказа: {{ price }} ₽</div>
             <UploadForm :image_url="uploadedImage" @updateOrderDetails="updateOrderDetails" />
         </div>
-
 
         <div class="image-container">
             <img :src="selectedImage" alt="Selected Image" />
@@ -15,7 +12,7 @@
             <img v-for="image in images" :key="image" :src="image" alt="Thumbnail" @click="selectImage(image)" />
         </div>
 
-
+        <div class="price">{{ price }} ₽</div>
         <div class="color-buttons">
             <button @click="selectColor('white')" style="background-color:white;"></button>
             <button @click="selectColor('black')" style="background-color:darkslategray;"></button>
@@ -70,31 +67,19 @@ export default {
         },
     },
 };
-// const app = createApp({
-//     components: {
-//         UploadForm,
-//     },
-// });
-
-
-// const previousApp = app._container?.parentNode?.__vue_app__;
-// if (previousApp) {
-//   previousApp.unmount();
-// }
-
-// app.mount('#app');
 
 </script>
 
 <style scoped>
 .top-container {
-    display: flex;
     margin-bottom: 20px;
+    margin-left: 10px;
 }
 
-.top-container .price {
-    font-size: 18px;
-
+.price {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 10px;
 }
 
 .color-buttons {
@@ -103,6 +88,8 @@ export default {
     margin-left: 10px;
     margin-bottom: 20px;
     margin-top: 20px;
+    position: relative;
+    z-index: 999;
 }
 
 .color-buttons button {
@@ -125,6 +112,8 @@ export default {
 .thumbnails {
     display: flex;
     justify-content: space-between;
+    position: relative;
+    z-index: 999;
 }
 
 .thumbnails img {
