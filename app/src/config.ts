@@ -3,7 +3,7 @@ import { defineConfig } from '@tok/generation';
 
 
 import ConstructorSection from './custom/ConstructorSection.vue';
-import OrderSection from './custom/OrderSection.vue';
+// import OrderSection from './custom/OrderSection.vue';
 
 const imageStyle =
   'left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: initial';
