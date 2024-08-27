@@ -35,7 +35,7 @@
 
 <script lang="ts">
 
-import OrderForm from './components/micro/orderForm.vue';
+import OrderForm from './components/orderForm.vue';
 import SelectAttForm from './components/micro/selectAttForm.vue';
 import PriceForm from './components/micro/priceForm.vue';
 
