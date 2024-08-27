@@ -18,8 +18,8 @@ export default defineConfig({
     {
       slides: [
         {
-          extends: 'order_slide',
-          button: 'Оформить заказ',
+          extends: 'constructor_slide',
+          button: 'Заказать!',
         },
         {
           media: {
@@ -58,10 +58,6 @@ export default defineConfig({
           title: 'Как это работает?',
           description:'Всё очень просто. Кидай в меня картинку, которую хочешь напечатать, выбирай модель одежды, размер и цвет. И оплачивай заказ.<br><br>Срок изготовления – 1 (иногда 2) дня с момента оплаты. Статус заказа я буду присылать тебе в нашу переписку.<br><br>Доставка — по всей России СДЭКом или Почтой, но оплачиваешь её ты — при получении.<br><br>Если остались вопросы, пиши <a href="https://t.me/gmalyshev">@gmalyshev</a>.<br><br><b style="font-size:24px">Погнали?</b><br><br>',
           button: 'ПОГНАЛИ!',
-        },
-        {
-          extends: 'constructor_slide',
-          button: 'Заказать!',
         },
         {
           extends: 'order_slide',
