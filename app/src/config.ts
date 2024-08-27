@@ -2,8 +2,8 @@ import { defineConfig } from '@tok/generation';
 
 
 
-// import ConstructorSection from './custom/ConstructorSection.vue';
-// import OrderSection from './custom/OrderSection.vue';
+import ConstructorSection from './custom/ConstructorSection.vue';
+import OrderSection from './custom/OrderSection.vue';
 
 const imageStyle =
   'left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: initial';
@@ -11,45 +11,16 @@ const imageStyle =
 
 export default defineConfig({
   definePresets: {
-    // constructor_slide: ConstructorSection,
-    // order_slide: OrderSection,
+    constructor_slide: ConstructorSection,
+    order_slide: OrderSection,
   },
   pages: [
     {
       slides: [
         {
-          // extends: 'order_slide',
-          // button: 'Оформить заказ',
-          extends: 'form',
-          media: {
-            type: 'sticker',
-            src: import('./assets/stickers/duck_spy.tgs'),
-            size: 150,
-          },
-          shape: 'square',
-          pagination: 'count',
-          title: 'Forms',
-          description: 'User fills in the form – the bot receives the data',
-          form: [
-            {
-              id: 'text_from_form',
-              placeholder: 'Text input',
-              type: 'text',
-            },
-            {
-              id: 'number_from_form',
-              placeholder: 'Number input',
-              type: 'number',
-            },
-            {
-              id: 'checkbox_from_form',
-              placeholder: 'Checkbox',
-              type: 'checkbox',
-            },
-          ],
-          button: 'Next',
+          extends: 'order_slide',
+          button: 'Оформить заказ',
         },
-        // intro
         {
           media: {
             type: 'sticker',

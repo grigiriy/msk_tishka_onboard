@@ -1,18 +1,16 @@
 <template>
-    <div>
+    <div class="constructor-container">
         <div class="top-container">
-            <UploadForm :image_url="uploadedImage" @updateOrderDetails="updateOrderDetails" />
+            <UploadForm :image="uploadedImage" @updateOrderDetails="updateOrderDetails" :selectedImg="selectedImage"/>
         </div>
 
-        <div class="image-container">
-            <img :src="selectedImage" alt="Selected Image" />
+        <div class="image-container" ref="container">
+            <img :src="selectedImage" alt="Selected Image" ref="selectedImage" />
         </div>
 
         <div class="thumbnails">
             <img v-for="image in images" :key="image" :src="image" alt="Thumbnail" @click="selectImage(image)" />
         </div>
-
-        
         <div class="bottom-container">
             <div class="color-buttons">
                 <button @click="selectColor('white')" style="background-color:white;"></button>
@@ -23,7 +21,6 @@
     </div>
 </template>
 
-
 <script lang="ts">
 import UploadForm from './components/micro/uploadForm.vue';
 
@@ -33,12 +30,17 @@ export default {
     },
     data() {
         return {
+            screenshot: null,
             selectedImage: 'https://thesh.ru/src/assets/img/products/shirt_white.png' as string | null,
+            // selectedImage: './src/assets/img/products/shirt_white.png' as string | null,
             uploadedImage: null as string | null,
             images: [
                 'https://thesh.ru/src/assets/img/products/shirt_white.png',
                 'https://thesh.ru/src/assets/img/products/sweetshirt_white.png',
                 'https://thesh.ru/src/assets/img/products/hoodie_white.png'
+                // './src/assets/img/products/shirt_white.png',
+                // './src/assets/img/products/sweetshirt_white.png',
+                // './src/assets/img/products/hoodie_white.png'
             ],
             price: 2500,
             prices: {
@@ -50,7 +52,7 @@ export default {
     },
     methods: {
         updateOrderDetails(key: string, value: string) {
-            if (key === 'image_url') {
+            if (key === 'image') {
                 this.uploadedImage = value;
             }
         },
@@ -62,11 +64,18 @@ export default {
         selectColor(color: string): void {
             const type = this.selectedImage?.split('_')[0].split('/').pop();
             this.images = [
+                // `./src/assets/img/products/shirt_${color}.png`,
+                // `./src/assets/img/products/sweetshirt_${color}.png`,
+                // `./src/assets/img/products/hoodie_${color}.png`
                 `https://thesh.ru/src/assets/img/products/shirt_${color}.png`,
                 `https://thesh.ru/src/assets/img/products/sweetshirt_${color}.png`,
                 `https://thesh.ru/src/assets/img/products/hoodie_${color}.png`
             ];
             this.selectedImage = `https://thesh.ru/src/assets/img/products/${type}_${color}.png`;
+            // this.selectedImage = `./src/assets/img/products/${type}_${color}.png`;
+        },
+        updateScreenshot(screenshot: string) {
+            this.screenshot = screenshot;
         },
     },
 };
@@ -74,6 +83,14 @@ export default {
 </script>
 
 <style scoped>
+
+.constructor-container {
+    max-width:300px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
 .top-container {
     margin-bottom: 20px;
     margin-left: 10px;
@@ -109,7 +126,7 @@ export default {
 }
 
 .image-container img {
-    max-width: 80vw;
+    max-width: 300px;
 }
 
 .thumbnails {
@@ -122,7 +139,7 @@ export default {
 .thumbnails img {
     margin-right: 10px;
     cursor: pointer;
-    max-width: 20vw;
+    max-width: 30%;
 }
 
 .bottom-container {

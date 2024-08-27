@@ -11,9 +11,9 @@
   </template>
   
   <script>
-  import Button from './button.vue';
-  import Input from './input.vue';
-  import Textarea from './textarea.vue';
+  import Button from './micro/button.vue';
+  import Input from './micro/input.vue';
+  import Textarea from './micro/textarea.vue';
   
   export default {
     components: {

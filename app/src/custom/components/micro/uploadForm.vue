@@ -20,7 +20,10 @@
         </div>
       </div>
     </div>
-    <div v-if="image_url" class="preview">
+
+    <button class="spec_btn" v-if="image" @click="createScreenshot">Generate and Download Image</button>
+
+    <div v-if="image" class="preview">
       <vue-draggable-resizable
         :w="120"
         :h="150"
@@ -28,8 +31,10 @@
         :max-width="180"
         :min-height="50"
         :max-height="200"
+        
         :x="110"
         :y="190"
+
         :parent="true"
         :resizable="true"
         :draggable="true"
@@ -37,7 +42,7 @@
         @mousedown.native.stop
         @touchstart.native.stop
         >
-        <img :src="image_url" alt="Uploaded Image" />
+        <img :src="image" alt="Uploaded Image" v-if="image"/>
       </vue-draggable-resizable>
     </div>
 
@@ -56,9 +61,67 @@ export default {
   props: {
     text: String,
     type: String,
-    image_url: String,
+    image: String,
+    selectedImg: String | null
   },
   methods: {
+    
+
+
+    createScreenshot() {
+      // Get the position and size of the uploaded image
+      const uploadedImage = document.querySelector('.preview img');
+      const { left, top, width, height } = uploadedImage.getBoundingClientRect();
+
+      // Send the necessary data to the backend
+      const data = {
+        image1: this.selectedImg,
+        image2: this.image,
+        left,
+        top,
+        width,
+        height
+      };
+      fetch('https://thesh.ru/api/genimg.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.blob())
+        .then(blob => {
+          // Create a data URL for the generated image
+          const dataUrl = URL.createObjectURL(blob);
+
+          // Call the downloadImage method with the data URL
+          this.downloadImage(dataUrl);
+        });
+    },
+
+
+
+  downloadImage(dataUrl) {
+    // Create a temporary link element
+    const link = document.createElement('a');
+
+    // Set the link href to the data URL
+    link.href = dataUrl;
+
+    // Set the link download attribute to the desired filename
+    link.download = 'image.png';
+
+    // Append the link to the document body
+    document.body.appendChild(link);
+
+    // Trigger a click event on the link to initiate the download
+    link.click();
+
+    // Remove the link from the document body
+    document.body.removeChild(link);
+  },
+
+
     handleImageChange(e) {
       e.preventDefault();
 
@@ -66,7 +129,7 @@ export default {
       let file = e.target.files[0];
 
       reader.onloadend = () => {
-        this.$emit('updateOrderDetails', 'image_url', reader.result);
+        this.$emit('updateOrderDetails', 'image', reader.result);
       };
 
       reader.readAsDataURL(file);
@@ -105,31 +168,27 @@ export default {
   position: relative;
 }
 
+.spec_btn {
+  z-index: 9999;
+  position: relative;
+}
+
 .uploader_block .preview {
   position: absolute;
   top: 0;
   left: 0;
-
-  /* position: relative; */
-  /* top: 80px; */
-  /* left: 90px; */
-
   width: 100%;
   height: 100%;
   right: calc(50% - 18vw);
 }
 .uploader_block .preview .vdr {
-  /* position: absolute; */
-  /* position: relative; */
-  /* top: 80px; */
-  /* left: 90px;  */
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .handle.handle-br {
+  display: block!important;
   position: absolute;
   bottom: -12px;
   right: -12px;

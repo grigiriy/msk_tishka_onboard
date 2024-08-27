@@ -4,7 +4,7 @@
 
 
 <script lang="ts">
-import OrderForm from './components/micro/orderForm.vue';
+import OrderForm from './components/orderForm.vue';
 
 export default {
   components: {
