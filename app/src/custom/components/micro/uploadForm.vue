@@ -64,65 +64,85 @@ export default {
     image: String,
     selectedImg: String | null
   },
+  
+
+
+
+
+
   methods: {
-    
+  async createScreenshot() {
+    console.log("Начало создания скриншота");
 
+    const uploadedImage = document.querySelector('.preview img');
+    if (!uploadedImage) {
+        console.error("Загруженное изображение не найдено");
+        return;
+    }
 
-    createScreenshot() {
-      // Get the position and size of the uploaded image
-      const uploadedImage = document.querySelector('.preview img');
-      const { left, top, width, height } = uploadedImage.getBoundingClientRect();
+    console.log("Загруженное изображение найдено:", this.image);
 
-      // Send the necessary data to the backend
-      const data = {
-        image1: this.selectedImg,
-        image2: this.image,
-        left,
-        top,
-        width,
-        height
-      };
-      fetch('https://thesh.ru/api/genimg.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-        .then(response => response.blob())
-        .then(blob => {
-          // Create a data URL for the generated image
-          const dataUrl = URL.createObjectURL(blob);
+    const { left, top, width, height } = uploadedImage.getBoundingClientRect();
+    console.log("Размеры и позиция загруженного изображения:", { left, top, width, height });
 
-          // Call the downloadImage method with the data URL
-          this.downloadImage(dataUrl);
-        });
-    },
+    const containerRect = document.querySelector('.image-container').getBoundingClientRect();
+    console.log("Размеры и позиция контейнера:", containerRect);
 
+    const scaleX = containerRect.width / 500;
+    const scaleY = containerRect.height / 513;
 
+    const canvasX = (left - containerRect.left) / scaleX;
+    const canvasY = (top - containerRect.top) / scaleY;
+    const canvasWidth = width / scaleX;
+    const canvasHeight = height / scaleY;
+
+    console.log("Коэффициенты масштабирования:", { scaleX, scaleY });
+    console.log("Рисование загруженного изображения на canvas с координатами:", { canvasX, canvasY, canvasWidth, canvasHeight });
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 500;
+    canvas.height = 513;
+    const ctx = canvas.getContext('2d');
+
+    // Загрузка фонового изображения
+    const backgroundImage = new Image();
+    backgroundImage.src = this.selectedImg;
+
+    backgroundImage.onload = () => {
+        console.log("Фоновое изображение загружено");
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        console.log("Фоновое изображение нарисовано на canvas");
+
+        // Загрузка и рисование загруженного изображения
+        const overlayImage = new Image();
+        overlayImage.src = this.image;
+
+        overlayImage.onload = () => {
+            console.log("Загруженное изображение загружено");
+            const uploadedImageDataUrl = overlayImage.src; // Сохраняем base64 загруженного изображения
+
+            ctx.drawImage(overlayImage, canvasX, canvasY, canvasWidth, canvasHeight);
+            console.log("Загруженное изображение нарисовано на canvas");
+
+            const dataUrl = canvas.toDataURL('image/png');
+            console.log("Финальное изображение создано");
+            this.downloadImage(dataUrl);
+            this.downloadImage(uploadedImageDataUrl);
+        };
+    };
+},
 
   downloadImage(dataUrl) {
-    // Create a temporary link element
+    console.log("Скачивание изображения");
     const link = document.createElement('a');
-
-    // Set the link href to the data URL
     link.href = dataUrl;
-
-    // Set the link download attribute to the desired filename
-    link.download = 'image.png';
-
-    // Append the link to the document body
+    link.download = 'custom_image.png';
     document.body.appendChild(link);
-
-    // Trigger a click event on the link to initiate the download
     link.click();
-
-    // Remove the link from the document body
     document.body.removeChild(link);
+    console.log("Изображение скачано");
   },
-
-
-    handleImageChange(e) {
+  handleImageChange(e) {
       e.preventDefault();
 
       let reader = new FileReader();
@@ -134,7 +154,16 @@ export default {
 
       reader.readAsDataURL(file);
     },
-  },
+},
+
+
+
+
+
+
+
+
+
 };
 </script>
 

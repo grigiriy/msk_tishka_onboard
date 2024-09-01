@@ -31,16 +31,21 @@ export default {
     data() {
         return {
             screenshot: null,
-            selectedImage: 'https://thesh.ru/src/assets/img/products/shirt_white.png' as string | null,
+            // selectedImage: 'https://thesh.ru/src/assets/img/products/shirt_white.png' as string | null,
             // selectedImage: './src/assets/img/products/shirt_white.png' as string | null,
+            selectedImage: `${import.meta.env.VITE_BASE_URL}shirt_white.png` as string | null,
+
             uploadedImage: null as string | null,
             images: [
-                'https://thesh.ru/src/assets/img/products/shirt_white.png',
-                'https://thesh.ru/src/assets/img/products/sweetshirt_white.png',
-                'https://thesh.ru/src/assets/img/products/hoodie_white.png'
+                // 'https://thesh.ru/src/assets/img/products/shirt_white.png',
+                // 'https://thesh.ru/src/assets/img/products/sweetshirt_white.png',
+                // 'https://thesh.ru/src/assets/img/products/hoodie_white.png'
                 // './src/assets/img/products/shirt_white.png',
                 // './src/assets/img/products/sweetshirt_white.png',
                 // './src/assets/img/products/hoodie_white.png'
+                `${import.meta.env.VITE_BASE_URL}shirt_white.png`,
+                `${import.meta.env.VITE_BASE_URL}sweetshirt_white.png`,
+                `${import.meta.env.VITE_BASE_URL}hoodie_white.png`
             ],
             price: 2500,
             prices: {
@@ -67,12 +72,16 @@ export default {
                 // `./src/assets/img/products/shirt_${color}.png`,
                 // `./src/assets/img/products/sweetshirt_${color}.png`,
                 // `./src/assets/img/products/hoodie_${color}.png`
-                `https://thesh.ru/src/assets/img/products/shirt_${color}.png`,
-                `https://thesh.ru/src/assets/img/products/sweetshirt_${color}.png`,
-                `https://thesh.ru/src/assets/img/products/hoodie_${color}.png`
+                // `https://thesh.ru/src/assets/img/products/shirt_${color}.png`,
+                // `https://thesh.ru/src/assets/img/products/sweetshirt_${color}.png`,
+                // `https://thesh.ru/src/assets/img/products/hoodie_${color}.png`
+                `${import.meta.env.VITE_BASE_URL}shirt_${color}.png`,
+                `${import.meta.env.VITE_BASE_URL}sweetshirt_${color}.png`,
+                `${import.meta.env.VITE_BASE_URL}hoodie_${color}.png`
             ];
-            this.selectedImage = `https://thesh.ru/src/assets/img/products/${type}_${color}.png`;
+            // this.selectedImage = `https://thesh.ru/src/assets/img/products/${type}_${color}.png`;
             // this.selectedImage = `./src/assets/img/products/${type}_${color}.png`;
+            this.selectedImage = `${import.meta.env.VITE_BASE_URL}${type}_${color}.png`;
         },
         updateScreenshot(screenshot: string) {
             this.screenshot = screenshot;
