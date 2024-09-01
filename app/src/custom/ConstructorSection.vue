@@ -3,11 +3,11 @@
         <div class="top-container">
             <UploadForm :image="uploadedImage" @updateOrderDetails="updateOrderDetails" :selectedImg="selectedImage"/>
         </div>
-
+    
         <div class="image-container" ref="container">
             <img :src="selectedImage" alt="Selected Image" ref="selectedImage" />
         </div>
-
+    
         <div class="thumbnails">
             <img v-for="image in images" :key="image" :src="image" alt="Thumbnail" @click="selectImage(image)" />
         </div>
@@ -24,34 +24,33 @@
 <script lang="ts">
 import UploadForm from './components/micro/uploadForm.vue';
 
+import shirtWhite from '../assets/img/products/shirt_white.png';
+import sweetshirtWhite from '../assets/img/products/sweetshirt_white.png';
+import hoodieWhite from '../assets/img/products/hoodie_white.png';
+import shirtBlack from '../assets/img/products/shirt_black.png';
+import sweetshirtBlack from '../assets/img/products/sweetshirt_black.png';
+import hoodieBlack from '../assets/img/products/hoodie_black.png';
+    
 export default {
     components: {
         UploadForm,
     },
     data() {
         return {
-            screenshot: null,
-            // selectedImage: 'https://thesh.ru/src/assets/img/products/shirt_white.png' as string | null,
-            // selectedImage: './src/assets/img/products/shirt_white.png' as string | null,
-            selectedImage: `${import.meta.env.VITE_BASE_URL}shirt_white.png` as string | null,
-
+            screenshot: null as string | null,
+            selectedImage: shirtWhite,
             uploadedImage: null as string | null,
-            images: [
-                // 'https://thesh.ru/src/assets/img/products/shirt_white.png',
-                // 'https://thesh.ru/src/assets/img/products/sweetshirt_white.png',
-                // 'https://thesh.ru/src/assets/img/products/hoodie_white.png'
-                // './src/assets/img/products/shirt_white.png',
-                // './src/assets/img/products/sweetshirt_white.png',
-                // './src/assets/img/products/hoodie_white.png'
-                `${import.meta.env.VITE_BASE_URL}shirt_white.png`,
-                `${import.meta.env.VITE_BASE_URL}sweetshirt_white.png`,
-                `${import.meta.env.VITE_BASE_URL}hoodie_white.png`
-            ],
+            images: [shirtWhite, sweetshirtWhite, hoodieWhite],
+            imageMap: {
+            white: [shirtWhite, sweetshirtWhite, hoodieWhite],
+            black: [shirtBlack, sweetshirtBlack, hoodieBlack],
+            },
+            currentType: 'shirt', // Добавлено для хранения текущего типа
             price: 2500,
             prices: {
-                shirt: 2500,
-                sweetshirt: 3000,
-                hoodie: 4000
+            shirt: 2500,
+            sweetshirt: 3000,
+            hoodie: 4000
             },
         };
     },
@@ -63,36 +62,23 @@ export default {
         },
         selectImage(image: string): void {
             this.selectedImage = image;
-            const type = image.split('_')[0].split('/').pop();
-            this.price = this.prices[type as keyof typeof this.prices];
+            this.currentType = image.split('_')[0].split('/').pop() as 'shirt' | 'sweetshirt' | 'hoodie'; // Обновляем currentType
+            console.log('currentType', this.currentType);
+            this.price = this.prices[this.currentType as keyof typeof this.prices];
         },
-        selectColor(color: string): void {
-            const type = this.selectedImage?.split('_')[0].split('/').pop();
-            this.images = [
-                // `./src/assets/img/products/shirt_${color}.png`,
-                // `./src/assets/img/products/sweetshirt_${color}.png`,
-                // `./src/assets/img/products/hoodie_${color}.png`
-                // `https://thesh.ru/src/assets/img/products/shirt_${color}.png`,
-                // `https://thesh.ru/src/assets/img/products/sweetshirt_${color}.png`,
-                // `https://thesh.ru/src/assets/img/products/hoodie_${color}.png`
-                `${import.meta.env.VITE_BASE_URL}shirt_${color}.png`,
-                `${import.meta.env.VITE_BASE_URL}sweetshirt_${color}.png`,
-                `${import.meta.env.VITE_BASE_URL}hoodie_${color}.png`
-            ];
-            // this.selectedImage = `https://thesh.ru/src/assets/img/products/${type}_${color}.png`;
-            // this.selectedImage = `./src/assets/img/products/${type}_${color}.png`;
-            this.selectedImage = `${import.meta.env.VITE_BASE_URL}${type}_${color}.png`;
+        selectColor(color: string) {
+            const typeArray = ['shirt', 'sweetshirt', 'hoodie'];
+            this.images = this.imageMap[color];
+            this.selectedImage = this.images[typeArray.indexOf(this.currentType)]; // Используем currentType для получения индекса
         },
         updateScreenshot(screenshot: string) {
             this.screenshot = screenshot;
         },
     },
 };
-
 </script>
-
+    
 <style scoped>
-
 .constructor-container {
     max-width:300px;
     display: flex;
