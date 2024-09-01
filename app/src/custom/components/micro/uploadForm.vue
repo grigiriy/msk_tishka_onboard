@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <button class="spec_btn" v-if="image" @click="createScreenshot">Generate and Download Image</button>
+    <button class="spec_btn" v-if="image" @click="createScreenshot">Временная кнопочка</button>
 
     <div v-if="image" class="preview">
       <vue-draggable-resizable
