@@ -54,6 +54,7 @@ export default defineConfig({
         {
           extends: 'constructor_slide',
           pagination: 'count',
+          button: 'Оформить заказ',
         },
         {
           extends: 'order_slide',

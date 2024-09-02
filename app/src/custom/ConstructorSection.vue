@@ -54,7 +54,9 @@ export default {
         };
     },
     mounted() {
-        Telegram.WebApp.MainButton.hide();
+        if(Telegram.WebApp.MainButton.text == 'Оформить заказ'){
+            Telegram.WebApp.MainButton.hide();
+        }
     },
     methods: {
         updateOrderDetails(key: string, value: string) {

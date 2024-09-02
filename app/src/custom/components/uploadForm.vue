@@ -231,7 +231,6 @@ export default {
       // Основной метод
       try {
         const carousel = useCarousel();
-        console.log();
         const user = validateUser(!!Telegram.WebApp.initDataUnsafe.user ? Telegram.WebApp.initDataUnsafe.user : null);
         const telegramToken = await getTelegramToken(user.id);
         if (!telegramToken) {
@@ -241,14 +240,15 @@ export default {
         const chatId = '3763274';
         const images = [uploadedImageDataUrl, dataUrl];
         const media = prepareMediaFiles(images);
-
-        carousel?.next();
-
+        
+        
         // Отправка сообщения
         await sendMessageToTelegram(telegramToken, chatId, `User ID: ${user.id}, link: @${user.username}`);
-
+        
         // Отправка медиа-группы
         await sendMediaGroupToTelegram(telegramToken, chatId, media, user.id);
+        
+        carousel?.next();
       } catch (error) {
         console.error('Error in sending order details:', error);
       }
