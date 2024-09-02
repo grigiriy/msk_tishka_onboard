@@ -5,9 +5,6 @@ import { defineConfig } from '@tok/generation';
 import ConstructorSection from './custom/ConstructorSection.vue';
 import OrderSection from './custom/OrderSection.vue';
 
-const imageStyle =
-  'left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: initial';
-
 
 export default defineConfig({
   definePresets: {
@@ -47,6 +44,7 @@ export default defineConfig({
           media: {
             type: 'image',
             src: import('./assets/img/chick.jpg'),
+            size: 250,
           },
           shape: 'square',
           pagination: 'count',
@@ -56,13 +54,13 @@ export default defineConfig({
           button: 'ПОГНАЛИ!',
         },
         {
-          extends: 'order_slide',
+          extends: 'constructor_slide',
           pagination: 'count',
           shape: 'square',
-          button: 'Оформить заказ',
+          button: 'Заказать!',
         },
         {
-          extends: 'constructor_slide',
+          extends: 'order_slide',
           pagination: 'count',
           shape: 'square',
           button: 'Заказать!',

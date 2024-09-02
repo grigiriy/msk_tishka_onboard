@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import UploadForm from './components/micro/uploadForm.vue';
+import UploadForm from './components/uploadForm.vue';
 
 import shirtWhite from '../assets/img/products/shirt_white.png';
 import sweetshirtWhite from '../assets/img/products/sweetshirt_white.png';

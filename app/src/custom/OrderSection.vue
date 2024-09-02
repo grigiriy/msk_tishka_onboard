@@ -9,15 +9,7 @@ import OrderForm from './components/orderForm.vue';
 export default {
   components: {
     OrderForm
-  },
-  data() {
-    return {
-
-    };
-  },
-  methods: {
-
-  },
+  }
 };
 
 </script>

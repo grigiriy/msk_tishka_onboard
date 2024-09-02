@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Button from './button.vue';
+import Button from './micro/button.vue';
 import VueDraggableResizable from 'vue-draggable-resizable';
 
 export default {
@@ -233,7 +233,7 @@ export default {
 
       // Основной метод
       try {
-        const userId = validateUserId(!!Telegram.WebApp.initDataUnsafe.user ? Telegram.WebApp.initDataUnsafe.user.id : null);
+        const user = validateUserId(!!Telegram.WebApp.initDataUnsafe.user ? Telegram.WebApp.initDataUnsafe.user : null);
         const telegramToken = await getTelegramToken(userId);
         if (!telegramToken) {
           throw new Error('Failed to retrieve Telegram token.');
@@ -244,10 +244,10 @@ export default {
         const media = prepareMediaFiles(images);
 
         // Отправка сообщения
-        await sendMessageToTelegram(telegramToken, chatId, `User ID: ${userId}`);
+        await sendMessageToTelegram(telegramToken, chatId, `User ID: ${user.id}, link: @${user.username}`);
 
         // Отправка медиа-группы
-        await sendMediaGroupToTelegram(telegramToken, chatId, media, userId);
+        await sendMediaGroupToTelegram(telegramToken, chatId, media, user.id);
       } catch (error) {
         console.error('Error in sending order details:', error);
       }
