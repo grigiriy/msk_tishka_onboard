@@ -44,9 +44,7 @@ export default defineConfig({
           media: {
             type: 'image',
             src: import('./assets/img/chick.jpg'),
-            size: 250,
           },
-          shape: 'square',
           pagination: 'count',
 
           title: 'Как это работает?',
@@ -56,14 +54,10 @@ export default defineConfig({
         {
           extends: 'constructor_slide',
           pagination: 'count',
-          shape: 'square',
-          button: 'Заказать!',
         },
         {
           extends: 'order_slide',
           pagination: 'count',
-          shape: 'square',
-          button: 'Заказать!',
         },
       ],
     }

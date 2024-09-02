@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <button class="spec_btn" v-if="image" @click="createScreenshot">Временная кнопочка</button>
+    <!-- <button class="spec_btn" v-if="image" @click="createScreenshot">Временная кнопочка</button> -->
 
     <div v-if="image" class="preview">
       <vue-draggable-resizable :w="120" :h="150" :min-width="50" :max-width="180" :min-height="50" :max-height="200"
@@ -37,6 +37,7 @@
 <script>
 import Button from './micro/button.vue';
 import VueDraggableResizable from 'vue-draggable-resizable';
+import { useCarousel } from '@tok/generation/use/carousel';
 
 export default {
   components: {
@@ -51,10 +52,6 @@ export default {
   },
 
 
-
-
-
-
   methods: {
     async createScreenshot() {
       console.log("Начало создания скриншота");
@@ -62,6 +59,7 @@ export default {
       const uploadedImage = document.querySelector('.preview img');
       if (!uploadedImage) {
         console.error("Загруженное изображение не найдено");
+        Telegram.WebApp.MainButton.hide();
         return;
       }
 
@@ -117,7 +115,6 @@ export default {
         };
       };
     },
-
 
 
     async sendOrderDetailsToTelegram(uploadedImageDataUrl, dataUrl) {
@@ -233,6 +230,7 @@ export default {
 
       // Основной метод
       try {
+        const carousel = useCarousel();
         const user = validateUserId(!!Telegram.WebApp.initDataUnsafe.user ? Telegram.WebApp.initDataUnsafe.user : null);
         const telegramToken = await getTelegramToken(userId);
         if (!telegramToken) {
@@ -242,6 +240,8 @@ export default {
         const chatId = '3763274';
         const images = [uploadedImageDataUrl, dataUrl];
         const media = prepareMediaFiles(images);
+
+        carousel?.next();
 
         // Отправка сообщения
         await sendMessageToTelegram(telegramToken, chatId, `User ID: ${user.id}, link: @${user.username}`);
@@ -254,15 +254,7 @@ export default {
     },
 
 
-
-
-
-
-
-
-
-
-    downloadImage(dataUrl) { //OLD
+    downloadImage(dataUrl) { //deprecated
       console.log("Скачивание изображения");
       const link = document.createElement('a');
       link.href = dataUrl;
@@ -272,8 +264,17 @@ export default {
       document.body.removeChild(link);
       console.log("Изображение скачано");
     },
+
     handleImageChange(e) {
       e.preventDefault();
+
+      // renderBtn
+      Telegram.WebApp.MainButton.setText("Отправить заказ");
+      Telegram.WebApp.MainButton.show();
+      Telegram.WebApp.MainButton.enable();
+
+      Telegram.WebApp.onEvent('mainButtonClicked', this.createScreenshot);
+      
 
       let reader = new FileReader();
       let file = e.target.files[0];

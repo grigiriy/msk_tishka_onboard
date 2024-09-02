@@ -37,13 +37,12 @@ export default {
     },
     data() {
         return {
-            screenshot: null as string | null,
             selectedImage: shirtWhite,
             uploadedImage: null as string | null,
             images: [shirtWhite, sweetshirtWhite, hoodieWhite],
             imageMap: {
-            white: [shirtWhite, sweetshirtWhite, hoodieWhite],
-            black: [shirtBlack, sweetshirtBlack, hoodieBlack],
+                white: [shirtWhite, sweetshirtWhite, hoodieWhite],
+                black: [shirtBlack, sweetshirtBlack, hoodieBlack],
             },
             currentType: 'shirt', // Добавлено для хранения текущего типа
             price: 2500,
@@ -70,9 +69,7 @@ export default {
             const typeArray = ['shirt', 'sweetshirt', 'hoodie'];
             this.images = this.imageMap[color];
             this.selectedImage = this.images[typeArray.indexOf(this.currentType)]; // Используем currentType для получения индекса
-        },
-        updateScreenshot(screenshot: string) {
-            this.screenshot = screenshot;
+            this.price = this.prices[this.currentType as keyof typeof this.prices];
         },
     },
 };
