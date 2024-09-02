@@ -113,12 +113,23 @@ export default {
           console.log("Финальное изображение создано");
           // this.downloadImage(dataUrl);
           // this.downloadImage(uploadedImageDataUrl);
-          this.sendImageToTelegram(uploadedImageDataUrl, dataUrl);
+          this.sendOrderDetailsToTelegram(uploadedImageDataUrl, dataUrl);
         };
       };
     },
-    async sendImageToTelegram(uploadedImageDataUrl, dataUrl) {
 
+
+
+    async sendOrderDetailsToTelegram(uploadedImageDataUrl, dataUrl) {
+      // Валидация userId
+      function validateUserId(userId) {
+        if (!userId || typeof userId !== 'number' || userId <= 0) {
+          throw new Error('Invalid user ID. User ID must be a number greater than 0.');
+        }
+        return userId;
+      }
+
+      // Получение Telegram токена
       async function getTelegramToken(userId) {
         try {
           const response = await fetch('https://thesh.ru/api/get-telegram-token.php', {
@@ -140,77 +151,115 @@ export default {
         }
       }
 
+      // Конвертация base64 в Blob
+      function convertBase64ToBlob(base64Image) {
+        const mimeType = base64Image.split(';')[0].split(':')[1];
+        const base64Data = base64Image.split(',')[1];
 
-      try {
-
-        const userId = Telegram ? Telegram.WebApp.initDataUnsafe.user.id : null;
-
-        if (!userId || typeof userId !== 'number' || userId <= 0) {
-          throw new Error('Invalid user ID. User ID must be a number greater than 0.');
+        const byteCharacters = atob(base64Data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let j = 0; j < byteCharacters.length; j++) {
+          byteNumbers[j] = byteCharacters.charCodeAt(j);
         }
+        const byteArray = new Uint8Array(byteNumbers);
+        return new Blob([byteArray], { type: mimeType });
+      }
 
-        const telegramToken = await getTelegramToken(userId); // Получаем токен
-        const chatId = '3763274';
+      // Подготовка медиа-файлов
+      function prepareMediaFiles(images) {
+        return images.map((image, index) => {
+          const blob = convertBase64ToBlob(image);
+          const file = new File([blob], `image${index + 1}.png`, { type: blob.type });
+          return { type: 'photo', media: file };
+        });
+      }
 
-        const images = [uploadedImageDataUrl, dataUrl];
-
-        const media = [];
-
-        for (let i = 0; i < images.length; i++) {
-          const base64Image = images[i];
-          const mimeType = base64Image.split(';')[0].split(':')[1]; // Извлекаем MIME тип
-          const base64Data = base64Image.split(',')[1]; // Убираем "data:image/png;base64," и оставляем только base64
-
-          // Преобразование base64 в Blob
-          const byteCharacters = atob(base64Data);
-          const byteNumbers = new Array(byteCharacters.length);
-          for (let j = 0; j < byteCharacters.length; j++) {
-            byteNumbers[j] = byteCharacters.charCodeAt(j);
-          }
-          const byteArray = new Uint8Array(byteNumbers);
-          const blob = new Blob([byteArray], { type: mimeType });
-
-          // Создание файла для отправки
-          const file = new File([blob], `image${i + 1}.png`, { type: mimeType });
-
-          media.push({
-            type: 'photo',
-            media: file
+      // Отправка сообщения в Telegram
+      async function sendMessageToTelegram(telegramToken, chatId, message) {
+        try {
+          const response = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+              chat_id: chatId,
+              text: message
+            }).toString()
           });
+
+          const result = await response.json();
+          if (!result.ok) {
+            throw new Error('Failed to send message:', result);
+          }
+          console.log('Message sent successfully');
+        } catch (error) {
+          console.error('Error sending message:', error);
+        }
+      }
+
+      // Отправка группы медиа в Telegram
+      async function sendMediaGroupToTelegram(telegramToken, chatId, media, userId) {
+        try {
+          const formData = new FormData();
+          formData.append('chat_id', chatId);
+
+          const mediaJson = media.map((item, index) => ({
+            type: item.type,
+            media: `attach://${item.media.name}`,
+          }));
+          formData.append('media', JSON.stringify(mediaJson));
+
+          media.forEach((item) => {
+            formData.append(item.media.name, item.media);
+          });
+
+          const res = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMediaGroup`, {
+            method: 'POST',
+            body: formData,
+          });
+
+          const result = await res.json();
+
+          if (result.ok) {
+            console.log('Media group sent successfully');
+          } else {
+            console.error('Failed to send media group:', result);
+          }
+        } catch (error) {
+          console.error('Error sending media group:', error);
+        }
+      }
+
+      // Основной метод
+      try {
+        const userId = validateUserId(!!Telegram.WebApp.initDataUnsafe.user ? Telegram.WebApp.initDataUnsafe.user.id : null);
+        const telegramToken = await getTelegramToken(userId);
+        if (!telegramToken) {
+          throw new Error('Failed to retrieve Telegram token.');
         }
 
-        // Создание FormData для отправки в Telegram
-        const formData = new FormData();
-        formData.append('chat_id', chatId);
+        const chatId = '3763274';
+        const images = [uploadedImageDataUrl, dataUrl];
+        const media = prepareMediaFiles(images);
 
-        // Формирование массива объектов для media в формате Telegram API
-        const mediaJson = media.map((item, index) => ({
-          type: item.type,
-          media: `attach://${item.media.name}` // Используем attach:// для привязки файла
-        }));
-        formData.append('media', JSON.stringify(mediaJson));
+        // Отправка сообщения
+        await sendMessageToTelegram(telegramToken, chatId, `User ID: ${userId}`);
 
-        // Добавление файлов в FormData
-        media.forEach((item) => {
-          formData.append(item.media.name, item.media);
-        });
-
-        const res = await fetch(`https://api.telegram.org/bot${telegramToken}/sendMediaGroup`, {
-          method: 'POST',
-          body: formData
-        });
-
-        const result = await res.json();
-
-        if (result.ok) {
-          console.log('Media group sent successfully');
-        } else {
-          console.error('Failed to send media group:', result);
-        }
+        // Отправка медиа-группы
+        await sendMediaGroupToTelegram(telegramToken, chatId, media, userId);
       } catch (error) {
-        console.error('Error sending media group:', error);
+        console.error('Error in sending order details:', error);
       }
     },
+
+
+
+
+
+
+
+
 
 
     downloadImage(dataUrl) { //OLD
