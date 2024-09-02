@@ -53,6 +53,9 @@ export default {
             },
         };
     },
+    mounted() {
+        Telegram.WebApp.MainButton.hide();
+    },
     methods: {
         updateOrderDetails(key: string, value: string) {
             if (key === 'image') {

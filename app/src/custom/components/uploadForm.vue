@@ -119,11 +119,11 @@ export default {
 
     async sendOrderDetailsToTelegram(uploadedImageDataUrl, dataUrl) {
       // Валидация userId
-      function validateUserId(userId) {
-        if (!userId || typeof userId !== 'number' || userId <= 0) {
+      function validateUser(user) {
+        if (!user || typeof user.id !== 'number' || user.id <= 0) {
           throw new Error('Invalid user ID. User ID must be a number greater than 0.');
         }
-        return userId;
+        return user;
       }
 
       // Получение Telegram токена
@@ -231,8 +231,9 @@ export default {
       // Основной метод
       try {
         const carousel = useCarousel();
-        const user = validateUserId(!!Telegram.WebApp.initDataUnsafe.user ? Telegram.WebApp.initDataUnsafe.user : null);
-        const telegramToken = await getTelegramToken(userId);
+        console.log();
+        const user = validateUser(!!Telegram.WebApp.initDataUnsafe.user ? Telegram.WebApp.initDataUnsafe.user : null);
+        const telegramToken = await getTelegramToken(user.id);
         if (!telegramToken) {
           throw new Error('Failed to retrieve Telegram token.');
         }
