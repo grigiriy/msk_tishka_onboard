@@ -9,7 +9,7 @@
         </div>
     
         <div class="thumbnails">
-            <img v-for="image in images" :key="image" :src="image" alt="Thumbnail" @click="selectImage(image)" />
+            <img v-for="image in images" :key="image" :src="image" :data-type="currentType" alt="Thumbnail" @click="selectImage(image)" />
         </div>
         <div class="bottom-container">
             <div class="color-buttons">
@@ -66,7 +66,15 @@ export default {
         },
         selectImage(image: string): void {
             this.selectedImage = image;
-            this.currentType = image.split('_')[0].split('/').pop() as 'shirt' | 'sweetshirt' | 'hoodie'; // Обновляем currentType
+            console.log('image', image);
+            // Update currentType based on the selected image
+            if (image === shirtWhite || image === shirtBlack) {
+                this.currentType = 'shirt';
+            } else if (image === sweetshirtWhite || image === sweetshirtBlack) {
+                this.currentType = 'sweetshirt';
+            } else if (image === hoodieWhite || image === hoodieBlack) {
+                this.currentType = 'hoodie';
+            }
             console.log('currentType', this.currentType);
             this.price = this.prices[this.currentType as keyof typeof this.prices];
         },
