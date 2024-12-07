@@ -54,11 +54,12 @@ export default defineConfig({
         {
           extends: 'constructor_slide',
           pagination: 'count',
-          button: 'Оформить заказ',
+          button: 'Заказать',
         },
         {
           extends: 'order_slide',
           pagination: 'count',
+          button: 'Оплатить',
         },
       ],
     }

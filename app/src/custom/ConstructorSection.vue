@@ -31,6 +31,10 @@ import shirtBlack from '../assets/img/products/shirt_black.png';
 import sweetshirtBlack from '../assets/img/products/sweetshirt_black.png';
 import hoodieBlack from '../assets/img/products/hoodie_black.png';
     
+
+import { useCarousel } from '@tok/generation/use/carousel';
+
+
 export default {
     components: {
         UploadForm,
@@ -54,9 +58,16 @@ export default {
         };
     },
     mounted() {
-        if(Telegram.WebApp.MainButton.text == 'Оформить заказ'){
-            Telegram.WebApp.MainButton.hide();
-        }
+        const carousel = useCarousel();
+
+        Telegram.WebApp.MainButton.onClick(() => {
+            if(Telegram.WebApp.MainButton.text == 'ПОГНАЛИ!') {
+                Telegram.WebApp.MainButton.hide();
+            }
+            if(Telegram.WebApp.MainButton.text == 'Заказать!') {
+                carousel?.next();
+            }
+        })
     },
     methods: {
         updateOrderDetails(key: string, value: string) {
