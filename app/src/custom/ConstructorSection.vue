@@ -47,9 +47,9 @@ export default {
             currentType: 'shirt', // Добавлено для хранения текущего типа
             price: 2500,
             prices: {
-                shirt: 2500,
-                sweetshirt: 3000,
-                hoodie: 4000
+                'shirt': 2500,
+                'sweetshirt': 3000,
+                'hoodie': 4000
             },
         };
     },
